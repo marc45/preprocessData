@@ -6,7 +6,7 @@ clear;clc
 file_path = './';
 file_name = 'test.xml';
 try
-    xDoc = xmlread(file_name);
+    xDoc = xmlread([file_path,file_name]);
 catch
     error('Failed to read XML file %s.',file_name);
 end
