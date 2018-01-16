@@ -13,13 +13,13 @@ end
 
 disp('loading...');
 
-annoation = xDoc.getElementsByTagName('annoation');
-annoation = annoation.item(0);
-scaleNode = annoation.getElementsByTagName('scale').item(0);
+annotation = xDoc.getElementsByTagName('annotation');
+annotation = annotation.item(0);
+scaleNode = annotation.getElementsByTagName('scale').item(0);
 scale = str2num(char(scaleNode.getTextContent()));
-typeNode = annoation.getElementsByTagName('type').item(0);
+typeNode = annotation.getElementsByTagName('type').item(0);
 type = char(typeNode.getTextContent());
-pointsNode = annoation.getElementsByTagName('points');
+pointsNode = annotation.getElementsByTagName('points');
 points = cell(1,1);
 for i = 0:pointsNode.getLength-1
     pointNode = pointsNode.item(i);
