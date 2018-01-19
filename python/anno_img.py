@@ -29,11 +29,11 @@ def img_anno(img_file_path):
     '''
     调用图形接口鼠标点击进行标注
     '''
-    #img = Image.open(img_file_path)
-    #plt.imshow(img)
-    t = np.arange(10)
-    plt.plot(t, np.sin(t))
-    print('Please click')
+    img = Image.open(img_file_path)
+    plt.imshow(img)
+    #t = np.arange(10)
+    #plt.plot(t, np.sin(t))
+    #print('Please click')
     pos = plt.ginput(3)
     print(pos)
     plt.show()
@@ -49,6 +49,6 @@ if __name__ == "__main__":
     example_anno_path = '../data/example.xml'
     #select_pic(pic_path, img_path, n)
     #add_anno(img_path, example_anno_path)
-    file_name = '00012c.jpg'
-    img_file_path = img_path + file_name
+    file_name = '00200c.jpg'
+    img_file_path = pic_path + file_name
     pos = img_anno(img_file_path)
