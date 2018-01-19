@@ -20,7 +20,8 @@
 ./--data/----annotation/
   |       |--image/ #target dir
   |       `--rar/   #source dir
-  `-python/--anno_img.py
+  |-python/--anno_img.py
+  `-matlab/
 ```
 
 #### 2-3 usage
@@ -30,3 +31,10 @@ $ cd python/
 $ python anno_img.py 
 ```
 You can change selection-step & target-dir in script file as you like.
+
+#### 2-4 reimplementation using matlab
+```
+$ matlab
+> cd matlab
+> run img_anno.m
+```
