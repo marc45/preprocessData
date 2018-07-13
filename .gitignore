@@ -1,5 +1,8 @@
 /.vscode
 /data
+/.idea
+/.vscode
 *.jpg
+*.png
 *.xml
 *.mat

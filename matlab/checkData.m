@@ -1,18 +1,14 @@
+%% MAIN
+function checkData()
 clearvars;close all;clc;
 % PATH CONFIG
 data_path = '../data/';
 img_path = '../data/image/';
 
-% ============================MAIN
-
 data = load_data(data_path);
 patch_bugs(img_path, data);
 
 imgSize = [256,256];
-detector = 0;
-oracleTr = 0;
-baseH = 300;
-baseW = 300;
 sets_train = zeros(length(data.img_train),1);%!data.img_train
 cnt = 0;
 cnt_test = 0;
@@ -51,7 +47,7 @@ for i = 1:length(data.img_train)%!data.img_train
         s = s_s.\s_t;
         tf = [ s(2) 0 0; 0 s(1) 0; 0  0 1];
         T = affine2d(tf);
-        %这里keypoint 在resize后取整的时候有一点问题，待修复       
+        %这里keypoint 在resize后取整的时�?有一点问题，待修�?      
         %points scaled
         [ptsAll{cnt}(:,1),ptsAll{cnt}(:,2)] = transformPointsForward(T, ptsAll{cnt}(:,1),ptsAll{cnt}(:,2));
     end    
@@ -61,9 +57,9 @@ end
 %close(h);
 storefile=sprintf('./data/extractedData_%d_%d',imgSize(1),imgSize(2));
 save(storefile,'img_final','ptsAll','sets_train','sets_train_idx');
-% =============================MAIN
+end
 
-% load img data
+%% load img data
 function img = load_img(img_name,img_path)
 img_file_path = [img_path,img_name];
 if exist(img_file_path,'file')
@@ -74,7 +70,7 @@ else
 end
 end
 
-% load raw annotation data
+%% load raw annotation data
 function data = load_data(data_path)
 
 filename = 'rawdata';
@@ -84,7 +80,7 @@ N = length(data.annolist);
 
 end
 
-% check data type & patch bugs
+%% check data type & patch bugs
 function patch_bugs(img_path,data)
 
 for i = 1:numel(data.annolist)

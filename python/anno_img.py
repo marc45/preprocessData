@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
-def select_pic(source_dir, target_dir, step = 20, index = 1):
+def select_pic(source_dir, target_dir, step = 20, header = '0'):
     '''
     每隔step张图片选取一张，并复制到target_dir文件夹，默认步长为20；
     并根据原文件夹进行重命名
@@ -17,7 +17,9 @@ def select_pic(source_dir, target_dir, step = 20, index = 1):
     n = len(files)
     for i in range(n):
         source_file = join(source_dir, files[i])
-        target_file = join(target_dir, 'sec'+str(index)+files[i])#对原文件根据文件夹重命名
+        target_file = join(target_dir, header + files[i])#对原文件根据文件夹重命名
+        if exists(target_file):
+            continue
         if isfile(source_file) and (i%step == 0):
             with open(target_file, 'wb') as tf:
                 with open(source_file, 'rb') as sf: 
@@ -33,7 +35,7 @@ def get_all_files(img_dir):
         file_names.append(splitext(names[i])[0])
     return file_names
 
-def add_anno(anno_dir, img_dir, img_name, annotations):
+def add_anno(anno_dir, img_dir, img_name, annotations, point_num):
     '''
     获取文件夹下所有文件的文件名，并依照示例创建同名xml标注文件
     '''
@@ -67,8 +69,9 @@ def add_anno(anno_dir, img_dir, img_name, annotations):
         y_value = doc.createTextNode(str(annotations[i][1]))
         y_node.appendChild(y_value)
     filename = anno_dir + img_name + '.xml'
-    with open(filename,'w') as f:
-        f.write(doc.toprettyxml())
+    if length == point_num:
+        with open(filename,'w') as f:
+            f.write(doc.toprettyxml())
 
 def img_anno(anno_dir, img_dir, img_name, point_num = 8):
     '''
@@ -85,7 +88,7 @@ def img_anno(anno_dir, img_dir, img_name, point_num = 8):
     pos = plt.ginput(point_num)
     print(pos)
     plt.show()
-    add_anno(anno_dir, img_dir, img_name, pos)
+    add_anno(anno_dir, img_dir, img_name, pos, point_num)
     return pos
 
 def get_data(point_num, img_dir, anno_dir):
@@ -97,20 +100,26 @@ def get_data(point_num, img_dir, anno_dir):
     print('process over~')
     
 if __name__ == "__main__":
-    index = 14
-    step = 25
-    validation_step = 71
-    point_num = 8
-    pic_dir = '../data/rar/Section' + str(index) + 'CameraC/'
-    img_dir = '../data/image/'
-    anno_dir = '../data/annotation/'
-    validation_img_dir = '../data/validation/image/'
-    validation_anno_dir = '../data/validation/annotation/'
+    train_step = 30 # 训练集步长
+    validation_step = 181 # 每隔固定步长取验证集图片
+    point_num = 16 # 标注点的数目
+    pic_dir = '../data/rar/Section86CameraC/'
+    pic_dir2 = '../data/rar/'
+    train_img_dir = '../data/val-sequence/image/'
+    train_anno_dir = '../data/val-sequence/annotation/'
+    validation_img_dir = '../data/validation2/image/'
+    validation_anno_dir = '../data/validation2/annotation/'
+    #sample_dir = '../data/sample/'
+    #names = [f for f in listdir(pic_dir2) if  not isfile(join(pic_dir2,f))]
+    #for header in names:
+    #    _pic_dir = pic_dir2 + header + '/'
+    #    print(_pic_dir)
+    #    select_pic(_pic_dir, validation_img_dir, validation_step, header)
     #选择训练集图片
-    #select_pic(pic_dir, img_dir, step, index)
+    #select_pic(pic_dir, train_img_dir, train_step, header)
     #选择验证集图片
-    #select_pic(pic_dir, validation_img_dir, validation_step, index)
+    #select_pic(pic_dir, validation_img_dir, validation_step, header = 'Section86CameraC')
     #标注训练集
-    #get_data(point_num, img_dir, anno_dir)
+    get_data(point_num, train_img_dir, train_anno_dir)
     #标注验证集
-    get_data(point_num, validation_img_dir, validation_anno_dir)
+    #get_data(point_num, validation_img_dir, validation_anno_dir)

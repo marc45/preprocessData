@@ -1,16 +1,29 @@
 %function img_anno()
 %-------------------------------------------
+function img_anno()
 clear;clc;
 
-%% PATH
-img_path = '../data/image/';
-anno_path = '../data/annotation/';
-point_num = 8;
+% PATH
+img_path = '../data/train/image/';
+anno_path = '../data/';
+point_num = 40;
 
-img_annotation(img_path, anno_path, point_num);
+singleProcess(img_path, anno_path, point_num)
+%img_annotation(img_path, anno_path, point_num);
 
-close all;
+end
+%% single img
 
+function singleProcess(img_path, anno_path, point_num)
+%k = find('.'== file_name);
+%name = file_name(1:k-1);%remove suffix
+name = 'sec600100c'
+file_path = [img_path, name,'.jpg'];
+target_path = [anno_path, name, '.xml'];
+disp(['add annotation to ',file_path]);
+[x,y]=get_coord(file_path, point_num)
+update(x,y,target_path);
+end
 %% show image and add annotation
 function img_annotation(img_path, anno_path, point_num)
 
@@ -22,9 +35,15 @@ for i = 1:size(imgnames)
     file_name = char(imgnames(i));
     k = find('.'== file_name);
     name = file_name(1:k-1);%remove suffix
+    file_path = [img_path, name,'.jpg'];
+    target_path = [anno_path, name, '.xml'];
+    if ~exist(target_path, 'file') == 0
+        msg = sprintf('%s annotation already exists.',target_path);
+        disp(msg);
+        continue;
+    end
     disp(['add annotation to ',file_name]);
-    [x,y]=get_coord([img_path, file_name], point_num);
-    target_path = [anno_path,name,'.xml'];
+    [x,y]=get_coord(file_path, point_num)
     update(x,y,target_path);
 end
 
