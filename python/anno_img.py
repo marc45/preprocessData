@@ -82,10 +82,11 @@ def img_anno(anno_dir, img_dir, img_name, point_num = 8):
     if exists(img_file) and exists(anno_file):#检测是否已经有标注
         print(img_name + '.xml annotation already exist~')
         return (0,0)
+    plt.figure(figsize=(15,15))
     img = Image.open(img_file)
     plt.title(img_file)
     plt.imshow(img)
-    pos = plt.ginput(point_num)
+    pos = plt.ginput(point_num, timeout = -1)
     print(pos)
     plt.show()
     add_anno(anno_dir, img_dir, img_name, pos, point_num)
@@ -105,8 +106,8 @@ if __name__ == "__main__":
     point_num = 16 # 标注点的数目
     pic_dir = '../data/rar/Section86CameraC/'
     pic_dir2 = '../data/rar/'
-    train_img_dir = '../data/val-sequence/image/'
-    train_anno_dir = '../data/val-sequence/annotation/'
+    train_img_dir = '../data/region2/'
+    train_anno_dir = '../data/region_annotation/'
     validation_img_dir = '../data/validation2/image/'
     validation_anno_dir = '../data/validation2/annotation/'
     #sample_dir = '../data/sample/'
